@@ -9,7 +9,7 @@ from itertools import zip_longest
 данные о хобби. Сохранить словарь в файл. Проверить сохранённые данные. Если в файле, хранящем данные о хобби,
 меньше записей, чем в файле с ФИО, задаём в словаре значение None. Если наоборот — выходим из скрипта с кодом «1».
 При решении задачи считать, что объём данных в файлах во много раз меньше объема ОЗУ.
-4. * (вместо 3) Решить задачу 3 для ситуации, когда объём данных в файлах превышает объём ОЗУ (разумеется, 
+4. C сайта: * (вместо 3) Решить задачу 3 для ситуации, когда объём данных в файлах превышает объём ОЗУ (разумеется, 
 не нужно реально создавать такие большие файлы, это просто задел на будущее проекта). Также реализовать парсинг 
 данных из файлов — получить отдельно фамилию, имя и отчество для пользователей и название каждого хобби: 
 преобразовать в какой-нибудь контейнерный тип (список, кортеж, множество, словарь). Обосновать выбор типа. 
@@ -25,11 +25,9 @@ if len(sys.argv) == 4:
         with open(sys.argv[2], encoding='utf-8') as hobbies:
             user_list = [line.strip().replace(',', ' ') for line in users]
             hobby_list = [line.strip().split(',') for line in hobbies]
-
             if len(hobby_list) > len(user_list):
                 print('hobbies length must be less than users')
                 sys.exit(1)
-
             dictionary = {
                 user: {
                     'name': user.split()[1],
@@ -38,7 +36,20 @@ if len(sys.argv) == 4:
                     'hobby': hobby
                 } for user, hobby in zip_longest(user_list, hobby_list)
             }
-        with open(sys.argv[3], 'w', encoding='utf-8') as dict_json:
-            json.dump(dictionary, dict_json, indent=3, ensure_ascii=False)
+    with open(sys.argv[3], 'w', encoding='utf-8') as dict_json:
+        json.dump(dictionary, dict_json, indent=3, ensure_ascii=False)
+
+    """
+    4. Из методички: *(вместо 3) Решить задачу 3 для ситуации, когда объём данных в файлах превышает объём
+    ОЗУ (разумеется, не нужно реально создавать такие большие файлы, это просто задел на
+    будущее проекта). Только теперь не нужно создавать словарь с данными. Вместо этого нужно
+    сохранить объединенные данные в новый файл (users_hobby.txt). Хобби пишем через
+    двоеточие и пробел после ФИО:
+    """
+
+    with open('user_hobby.txt', 'w', encoding='utf-8') as user_hobby:
+        for user, hobby in zip_longest(user_list, hobby_list):
+            hobby_str = ','.join(hobby) if hobby else hobby
+            user_hobby.write(f'{user.replace(" ", ",")}: {hobby_str}\n')
 else:
-    print('argvs error')
+    print('args error')

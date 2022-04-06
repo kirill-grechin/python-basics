@@ -2,15 +2,14 @@ import sys
 
 with open('bakery.csv', encoding='utf-8') as bakery:
     if len(sys.argv) == 1 or len(sys.argv) == 2:
-        bakery.seek(0)
+        start, stop = 1, sum(1 for line in bakery)
         if len(sys.argv) == 2:
-            bakery.seek((int(sys.argv[1]) - 1) * 8)
-        for line in bakery:
-            print(line.strip())
+            start = int(sys.argv[1])
+        bakery.seek(0)
     elif len(sys.argv) == 3:
-        bakery.seek((int(sys.argv[1]) - 1) * 8)
-        lines_count = int(sys.argv[2]) - int(sys.argv[1]) + 1
-        for _ in range(lines_count):
-            print(bakery.readline().strip())
+        start, stop = int(sys.argv[1]), int(sys.argv[2])
     else:
         print('args error')
+        sys.exit(1)
+    lines = (line.strip() for index, line in enumerate(bakery, start=1) if start <= index <= stop)
+    print(*lines, sep='\n')

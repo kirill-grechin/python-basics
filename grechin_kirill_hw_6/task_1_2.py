@@ -10,7 +10,7 @@ import urllib.request
 
 URL = 'https://github.com/elastic/examples/raw/master/Common%20Data%20Formats/nginx_logs/nginx_logs'
 
-log_list, address_list, response = [], [], urllib.request.urlopen(URL)
+log_list, address_dict, response = [], {}, urllib.request.urlopen(URL)
 with open('nginx_logs.txt', 'w+', encoding='utf-8') as nginx_logs:
     for line in response:
         nginx_logs.write(line.decode('utf-8'))
@@ -18,8 +18,8 @@ with open('nginx_logs.txt', 'w+', encoding='utf-8') as nginx_logs:
     for line in nginx_logs:
         split_line = line.replace('"', ' ').replace('-', ' ').split()
         log_list.append((split_line[0], split_line[3], split_line[4]))
-        address_list.append(split_line[0])
+        address_dict.setdefault(split_line[0], 0)
+        address_dict[split_line[0]] += 1
 
-spammer = max(set(address_list), key=address_list.count)
-spam_count = address_list.count(spammer)
-print(*log_list, f'spammer: {spammer}, spam_count: {spam_count}', sep='\n')
+spammer = max(address_dict, key=address_dict.get)
+print(*log_list, f'spammer: {spammer}, spam_count: {address_dict[spammer]}', sep='\n')

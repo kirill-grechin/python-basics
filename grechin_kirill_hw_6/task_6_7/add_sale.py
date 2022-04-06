@@ -14,4 +14,4 @@ if len(sys.argv) == 2:
     with open('bakery.csv', 'a', encoding='utf-8') as bakery:
         bakery.write(f'{sys.argv[1]}\n')
 else:
-    print('argvs error')
+    print('args error')
