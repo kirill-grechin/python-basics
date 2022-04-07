@@ -19,7 +19,7 @@ for item in os.scandir('some_data'):
     for limit in dictionary:
         if item.stat().st_size < limit:
             count, extens = dictionary[limit]
-            extension = item.name.split('.')[1]
+            extension = item.name.split('.')[-1]
             if extension not in set(extens):
                 extens.append(extension)
             dictionary[limit] = (count + 1, extens)

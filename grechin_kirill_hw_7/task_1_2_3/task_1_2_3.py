@@ -51,13 +51,13 @@ def normalize_templates(path):
 
 try:
     with open('config.yaml', encoding='utf-8') as yaml_config:
-        hierarchy = yaml.safe_load(yaml_config)
-    recursive_walk(hierarchy)
-    normalize_templates(next(iter(hierarchy[0])))
+        project = yaml.safe_load(yaml_config)
+    recursive_walk(project)
+    normalize_templates(next(iter(project)))
     with open('config.json', encoding='utf-8') as json_config:
-        hierarchy = json.load(json_config)
-    recursive_walk(hierarchy)
-    normalize_templates(next(iter(hierarchy)))
+        project = json.load(json_config)
+    recursive_walk(project)
+    normalize_templates(next(iter(project)))
 except FileNotFoundError:
     print('file does not exist')
 except json.decoder.JSONDecodeError:
