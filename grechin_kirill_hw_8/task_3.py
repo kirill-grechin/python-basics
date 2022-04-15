@@ -6,21 +6,19 @@ from functools import wraps
 # ли вы вывести тип значения функции? Сможете ли решить задачу для именованных
 # аргументов? Сможете ли вы замаскировать работу декоратора?
 
-def type_logger_cacher(func):
-    cache = {}
-
+def type_logger(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        cache.update({arg: type(arg) for arg in set(args) if arg not in cache})
-        cache.update({arg: type(arg) for arg in set(kwargs.values()) if arg not in cache})
-        return ', '.join(f'{func.__name__}({arg}: {cache[arg]})' for arg in list(args) + list(kwargs.values()))
+        for arg in list(args) + list(kwargs.values()):
+            print(f'{func.__name__}({arg}: {type(arg)})', end=',')
+        return func(*args, **kwargs)
 
     return wrapper
 
 
-@type_logger_cacher
+@type_logger
 def calc_cube(*args, **kwargs):
-    return tuple([arg ** 3 for arg in args] + [(arg1, arg2 ** 3) for arg1, arg2 in kwargs.items()])
+    return tuple(map(lambda x: x ** 3, list(args) + list(kwargs.values())))
 
 
 print(calc_cube(1, 5, 6, 7, i=10, j=15))

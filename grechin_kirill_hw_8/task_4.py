@@ -4,7 +4,7 @@ from functools import wraps
 # Написать декоратор с аргументом-функцией (callback), позволяющий валидировать входные
 # значения функции и выбрасывать исключение ValueError, если что-то не так.
 
-def val_checker(check=lambda x: x > -10):
+def val_checker(check):
     def _val_checker(func):
         @wraps(func)
         def wrapper(number):
