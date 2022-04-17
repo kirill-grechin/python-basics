@@ -18,21 +18,20 @@ class Stationery:
 
 class Pen(Stationery):
     def draw(self):
-        print('Pen drawing')
+        print('Pen is drawing')
 
 
 class Pencil(Stationery):
     def draw(self):
-        print('Pencil drawing')
+        print('Pencil is drawing')
 
 
 class Handle(Stationery):
     def draw(self):
-        print('Handle drawing')
+        print('Handle is drawing')
 
 
-title = 'some_title'
-Stationery(title).draw()
-Pen(title).draw()
-Pencil(title).draw()
-Handle(title).draw()
+Stationery('stationery').draw()
+Pen('pen').draw()
+Pencil('pencil').draw()
+Handle('handle').draw()

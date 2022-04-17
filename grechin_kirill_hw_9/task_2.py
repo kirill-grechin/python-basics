@@ -14,7 +14,7 @@ class Road:
         self._width = width
 
     def calculate_asphalt_mass(self, mass_for_meter=25, canvas_thickness=5):
-        return self._width * self._length * mass_for_meter * canvas_thickness
+        return self._width * self._length * mass_for_meter * canvas_thickness / 1000
 
 
 print(Road(20, 5000).calculate_asphalt_mass())

@@ -1,4 +1,5 @@
 import time
+from itertools import cycle
 
 
 # 1. Создать класс TrafficLight (светофор):
@@ -31,7 +32,7 @@ class TrafficLight:
         self.__waiting()
 
     def auto_running(self):
-        for color, wait_time in self.__settings.items():
+        for color, wait_time in cycle(self.__settings.items()):
             self.__color = color
             self.__waiting()
 
@@ -46,16 +47,14 @@ class TrafficLight:
 
 
 try:
-    # auto running
-    traffic_light = TrafficLight()
-    traffic_light.auto_running()
-    traffic_light.change_waiting_time('green', 10)
-    traffic_light.auto_running()
-
     # manual running
+    traffic_light = TrafficLight()
     traffic_light.manual_running('red')
     traffic_light.manual_running('yellow')
     traffic_light.manual_running('green')
-    traffic_light.manual_running('yellow')
+
+    # auto running
+    traffic_light.change_waiting_time('green', 10)
+    traffic_light.auto_running()
 except ValueError as ve:
     print(ve)

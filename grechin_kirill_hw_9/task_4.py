@@ -19,24 +19,23 @@ class Car:
         self.is_police = is_police
 
     def go(self):
-        print('car go')
+        print(f'car {self.name} is going')
 
     def stop(self):
-        print('car stop')
+        print(f'car {self.name} is stoping')
 
     def turn(self, direction):
-        print(f'car turn to {direction}')
+        print(f'car {self.name} is turning to {direction}')
 
     def show_speed(self):
-        print(f'car speed: {self.speed}')
+        print(f'Current speed of {self.name} car: {self.speed}')
 
 
 class TownCar(Car):
     def show_speed(self):
+        super().show_speed()
         if self.speed > 60:
-            print(f'over speed! car speed: {self.speed}')
-        else:
-            super().show_speed()
+            print(f'Over speed! Current speed: {self.speed}')
 
 
 class SportCar(Car):
@@ -45,10 +44,9 @@ class SportCar(Car):
 
 class WorkCar(Car):
     def show_speed(self):
+        super().show_speed()
         if self.speed > 40:
-            print(f'over speed! car speed: {self.speed}')
-        else:
-            super().show_speed()
+            print(f'Over speed! Current speed: {self.speed}')
 
 
 class PoliceCar(Car):
