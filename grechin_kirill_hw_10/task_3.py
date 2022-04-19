@@ -26,7 +26,7 @@ class Cell:
 
     def __sub__(self, other):
         if self.cells_count < other.cells_count:
-            print('Subtraction error: right argument is greater than left')
+            return 'Subtraction error: right argument is greater than left'
         else:
             return Cell(self.cells_count - other.cells_count)
 
@@ -39,9 +39,8 @@ class Cell:
     def make_order(self, cells_in_row_count):
         if not (1 < cells_in_row_count <= self.__cells_count):
             raise ValueError('Cells count in row must be: 1 < x <= cells count')
-        for _ in range(self.cells_count // cells_in_row_count):
-            print('*' * cells_in_row_count)
-        print('*' * (self.cells_count % cells_in_row_count))
+        return '\n'.join(['*' * cells_in_row_count for _ in range(self.cells_count // cells_in_row_count)]) \
+               + '\n' + str("*" * (self.cells_count % cells_in_row_count))
 
 
 cell_1 = Cell(50)
@@ -55,4 +54,4 @@ cell_3 = cell_1 * cell_2
 print(cell_3.cells_count)
 cell_3 = cell_2 // cell_1
 print(cell_3.cells_count)
-cell_2.make_order(33)
+print(cell_2.make_order(33))
