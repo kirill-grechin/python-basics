@@ -12,11 +12,10 @@ class LottoCard:
     __nums_in_row = 5
 
     def __init__(self, kegs_amount):
-        values = generate_random_numbers(kegs_amount, self.__nums_in_row * self.__rows)
-        values.extend([' '] * ((self.__cols - self.__nums_in_row) * self.__rows))
-        shuffle(values)
-        self.__lotto_card = values
-        self.__nums_indexes = {val: index for index, val in enumerate(values) if isinstance(val, int)}
+        self.__lotto_card = generate_random_numbers(kegs_amount, self.__nums_in_row * self.__rows)
+        self.__lotto_card.extend([' '] * ((self.__cols - self.__nums_in_row) * self.__rows))
+        shuffle(self.__lotto_card)
+        self.__nums_indexes = {val: index for index, val in enumerate(self.__lotto_card) if isinstance(val, int)}
 
     def __str__(self):
         return '\n'.join([''.join(f'{val:<4}' for val in self.__lotto_card[index:index + self.__cols])
@@ -25,13 +24,13 @@ class LottoCard:
     def __contains__(self, number):
         return number in self.__nums_indexes
 
+    def __bool__(self):
+        return bool(self.__nums_indexes)
+
     def cross_out_number(self, number):
         if number in self.__nums_indexes:
             self.__lotto_card[self.__nums_indexes[number]] = '-'
             self.__nums_indexes.pop(number)
-
-    def is_card_empty(self):
-        return not bool(self.__nums_indexes)
 
 
 class LottoGame:
@@ -57,21 +56,21 @@ class LottoGame:
             self.__user_card.cross_out_number(keg)
             self.__comp_card.cross_out_number(keg)
 
-            if self.__comp_card.is_card_empty() or self.__user_card.is_card_empty():
+            if not self.__comp_card or not self.__user_card:
                 self.__determine_winner()
 
     def __determine_winner(self):
-        if self.__comp_card.is_card_empty() and self.__user_card.is_card_empty():
+        if not self.__comp_card and not self.__user_card:
             raise StopIteration('Победила дружба!')
-        elif self.__user_card.is_card_empty():
+        elif not self.__user_card:
             raise StopIteration('Вы победили!')
-        elif self.__comp_card.is_card_empty():
+        elif not self.__comp_card:
             raise StopIteration('Победил компуктер!')
 
 
 try:
     LottoGame().start()
-except ValueError as ve:
-    print(ve)
-except StopIteration as si:
-    print(si)
+except ValueError as error:
+    print(error)
+except StopIteration as error:
+    print(error)
