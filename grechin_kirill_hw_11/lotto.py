@@ -39,11 +39,11 @@ class LottoGame:
     def __init__(self):
         self.__user_card = LottoCard(self.__kegs_amount)
         self.__comp_card = LottoCard(self.__kegs_amount)
-        self.__keg_bag = generate_random_numbers(self.__kegs_amount, self.__kegs_amount)
+        self.__keg_bag = reversed(list(enumerate(generate_random_numbers(self.__kegs_amount, self.__kegs_amount))))
 
     def start(self):
-        for index, keg in reversed(list(enumerate(self.__keg_bag))):
-            print(f'Новый бочонок: {keg} (осталось {index})')
+        for left, keg in self.__keg_bag:
+            print(f'Новый бочонок: {keg} (осталось {left})')
             print(f'{"-" * 10} Ваша карточка {"-" * 10}', self.__user_card, '-' * 35, sep='\n')
             print(f'{"-" * 7} Карточка компьютера {"-" * 7}', self.__comp_card, '-' * 35, sep='\n')
 
